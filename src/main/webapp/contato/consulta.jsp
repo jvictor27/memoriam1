@@ -20,8 +20,8 @@
 			<nav class="navbar navbar-default">
 			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			      <ul class="nav navbar-nav">
-			        <li><a href="${pageContext.request.contextPath}">Contatos</a></li>
-			        <li><a href="${pageContext.request.contextPath}/controller.do?op=conope">Operadoras</a></li>
+			        <li><a href="${pageContext.request.contextPath}">Contatos <i class="glyphicon glyphicon-earphone"></i></a></li>
+			        <li><a href="${pageContext.request.contextPath}/controller.do?op=conope">Operadoras <i class="glyphicon glyphicon-usd"></i></a></li>
 			      </ul>
 			     </div>
 			</nav>
@@ -43,7 +43,7 @@
 				</c:forEach>
 				</form>
 			</table>
-			<a href="contato/cadastro.jsp" class="form-control btn btn-primary"  style= "width:350px;" >Novo Contato <i class="glyphicon glyphicon-floppy-saved"></i></a><br> 
+			<a href="contato/cadastro.jsp" class="form-control btn btn-primary"  style= "width:350px;" >Novo Contato <i class="glyphicon glyphicon-floppy-disk"></i></a><br> 
 			<!-- <a href="operadora/cadastro.jsp"class="form-control btn btn-primary">Nova Operadora</a> -->
 			<!-- <a href=${pageContext.request.contextPath}/controller.do?op=conope class="form-control btn btn-primary">Consultar e Alterar Operadora</a> -->
 			<a class="form-control btn btn-danger btn_delete" style="display: none; width:350px">Apagar selecionados <i class="glyphicon glyphicon-trash"></i></a>

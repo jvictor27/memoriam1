@@ -39,10 +39,9 @@
 				<input type="hidden" name="id" value="${operadora.id}">
 				<input id="nome" value="${operadora.nome}" name="nome" type="text" class="form-control"  /> 
 				<input id="prefixo" value="${operadora.prefixo}" name="prefixo" type="text" class="form-control"  />				
-				 <input type="submit" class="form-control btn btn-primary"
-					value="Salvar">
+				 <button type="submit" class="form-control btn btn-primary" style= "width:350px;">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
 			</form>
-			<a class="form-control btn btn-success" href="${pageContext.request.contextPath}">Voltar</a>
+			<a class="form-control btn btn-success" href="${pageContext.request.contextPath}">Voltar <i class="glyphicon glyphicon-triangle-left"></i></a>
 		</div>
 	</div>
 	<c:set var="endofconversation" value="true" scope="request" />

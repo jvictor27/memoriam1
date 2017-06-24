@@ -56,9 +56,9 @@
 				</select> <input id="dataaniv" value="${dataAniv}" name="dataaniv"
 					class="form-control" type="date"
 					placeholder="Data de criação (dd/mm/aaaa)" /><br> 
-					<input type="submit" class="form-control btn btn-primary" style= "width:350px;" value="Salvar">
+					<button type="submit" class="form-control btn btn-primary" style= "width:350px;">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
 			</form>
-			<a class="form-control btn btn-success" style= "width:350px;"  href="${pageContext.request.contextPath} ">Voltar</a>
+			<a class="form-control btn btn-success" style= "width:350px;"  href="${pageContext.request.contextPath} ">Voltar <i class="glyphicon glyphicon-triangle-left"></i></a>
 		</div>
 	</div>
 	<c:set var="endofconversation" value="true" scope="request" />

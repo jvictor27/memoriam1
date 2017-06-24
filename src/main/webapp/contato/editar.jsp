@@ -59,10 +59,9 @@
 								${operadora.nome}</option>
 						</c:if>
 					</c:forEach>
-				</select> <input type="submit" class="form-control btn btn-primary"
-					value="Salvar">
+				</select> <button type="submit" class="form-control btn btn-primary" style= "width:350px;">Salvar <i class="glyphicon glyphicon-floppy-disk"></i></button>
 			</form>
-			<a class="form-control btn btn-success" href="${pageContext.request.contextPath}">Voltar</a>
+			<a class="form-control btn btn-success" href="${pageContext.request.contextPath}">Voltar <i class="glyphicon glyphicon-triangle-left"></i></a>
 		</div>
 	</div>
 	<c:set var="endofconversation" value="true" scope="request" />

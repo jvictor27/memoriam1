@@ -22,8 +22,8 @@
 			<nav class="navbar navbar-default">
 			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			      <ul class="nav navbar-nav">
-			        <li><a href="${pageContext.request.contextPath}">Contatos</a></li>
-			        <li><a href="${pageContext.request.contextPath}/controller.do?op=conope">Operadoras</a></li>
+			        <li><a href="${pageContext.request.contextPath}">Contatos <i class="glyphicon glyphicon-earphone"></i></a></li>
+			        <li><a href="${pageContext.request.contextPath}/controller.do?op=conope">Operadoras <i class="glyphicon glyphicon-usd"></i></a></li>
 			      </ul>
 			     </div>
 			</nav>
