@@ -43,7 +43,7 @@
 				</c:forEach>
 				</form>
 			</table>
-			<a href="operadora/cadastro.jsp"class="form-control btn btn-primary" style= "width:350px;">Nova Operadora <i class="glyphicon glyphicon-floppy-saved"></i></a><br>
+			<a href="operadora/cadastro.jsp"class="form-control btn btn-primary" style= "width:350px;">Nova Operadora <i class="glyphicon glyphicon-floppy-disk"></i></a><br>
 			<a class="form-control btn btn-danger btn_delete" style="display: none;width:350px">Apagar selecionados <i class="glyphicon glyphicon-trash"></i></a>
 			<%-- <a class="form-control btn btn-primary" href="${pageContext.request.contextPath}">Voltar</a> --%>
 		</div>
