@@ -27,6 +27,10 @@ public class Contato {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@OneToOne
+	@JoinColumn(name="ID_USUARIO")
+	private Usuario usuario;
+	
 	@Column(name="NM_CONTATO")
 	private String nome;
 	
@@ -80,6 +84,14 @@ public class Contato {
 
 	public void setOperadora(Operadora operadora) {
 		this.operadora = operadora;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override

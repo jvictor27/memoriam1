@@ -10,7 +10,7 @@ import br.edu.ifpb.memoriam.entity.Operadora;
 
 public class OperadoraController {
 	private Operadora operadora;
-	private List<String> mensagensErro;
+	private List<Mensagem> mensagensErro;
 	
 	public List<Operadora> consultar(){
 		OperadoraDAO dao = new OperadoraDAO(PersistenceUtil.getCurrentEntityManager());
@@ -33,11 +33,11 @@ public class OperadoraController {
 				dao.commit();
 				
 				resultado.setErro(false);
-				resultado.setMensagensErro(Collections.singletonList("operadora criado com sucesso"));
+				resultado.setMensagens(Collections.singletonList(new Mensagem("Operadadora criada com sucesso", Categoria.INFO)));
 			} else{
 				resultado.setEntidade(this.operadora);
 				resultado.setErro(true);
-				resultado.setMensagensErro(this.mensagensErro);
+				resultado.setMensagens(this.mensagensErro);
 				}
 			return resultado;
 	}
@@ -49,20 +49,20 @@ public class OperadoraController {
 		String[] prefixo= parametros.get("prefixo");
 		
 		this.operadora= new Operadora();
-		this.mensagensErro= new ArrayList<String>();
+		this.mensagensErro= new ArrayList<Mensagem>();
 		
 		if(id!= null && id.length>0 && !id[0].isEmpty()) {
 			operadora.setId(Integer.parseInt(id[0]));
 		}
 		
 		if(prefixo== null|| prefixo.length== 0 || prefixo[0].isEmpty()) {
-			this.mensagensErro.add("Prefixo Ã© campo obrigatÃ³rio!");
+			this.mensagensErro.add(new Mensagem("Prefixo é campo obrigatório!", Categoria.ERRO));
 		}else{
 			operadora.setPrefixo(Integer.parseInt(prefixo[0]));
 		}
 		
 		if(nome== null|| nome.length== 0 || nome[0].isEmpty()) {
-			this.mensagensErro.add("Nome Ã© campo obrigatÃ³rio!");
+			this.mensagensErro.add(new Mensagem("Nome é campo obrigatório!", Categoria.ERRO));
 		} else{
 			operadora.setNome(nome[0]);
 		}
@@ -85,11 +85,11 @@ public class OperadoraController {
 				dao.delete(o);
 			}
 			resultado.setErro(false);
-			resultado.setMensagensErro(Collections.singletonList("Operdadora(s) removidos com sucesso"));
+			resultado.setMensagens(Collections.singletonList(new Mensagem("Operdadora(s) removida com sucesso", Categoria.INFO)));
 		} catch (Exception exc) {
 			resultado.setEntidade(this.operadora);
 			resultado.setErro(true);
-			resultado.setMensagensErro(this.mensagensErro);
+			resultado.setMensagens(this.mensagensErro);
 		}
 		dao.commit();
 

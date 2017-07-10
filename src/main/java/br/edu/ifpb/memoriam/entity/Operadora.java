@@ -23,27 +23,15 @@ import org.hibernate.annotations.Cascade;
 
 @Table(name="TB_OPERADORA")
 public class Operadora {
-	//
 	@Id	
 	//@Cascade(value=org.hibernate.annotations.CascadeType.ALL)
 	@Column(name="ID_OPERADORA")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
-	
-//	
-//	public List<Contato> getContato() {
-//		return contato;
-//	}
-//
-
-//	}
 
 	private Integer id;
 	
 	@OneToMany(mappedBy="operadora",cascade=CascadeType.ALL)
 	private List<Contato> contato;
-//	public void setContato(List<Contato> contato) {
-//	this.contato = contato;
-	//
 	
 	public List<Contato> getContato() {
 		return contato;

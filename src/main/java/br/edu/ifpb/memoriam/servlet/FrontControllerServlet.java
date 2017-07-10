@@ -6,13 +6,17 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.edu.ifpb.memoriam.entity.Contato;
 import br.edu.ifpb.memoriam.entity.Operadora;
+import br.edu.ifpb.memoriam.entity.Usuario;
 import br.edu.ifpb.memoriam.facade.ContatoController;
+import br.edu.ifpb.memoriam.facade.LoginController;
 import br.edu.ifpb.memoriam.facade.OperadoraController;
 import br.edu.ifpb.memoriam.facade.Resultado;
 
@@ -44,9 +48,14 @@ public class FrontControllerServlet extends HttpServlet {
 		String id;
 		this.getServletContext().removeAttribute("msgs");
 		String operacao = request.getParameter("op");
+		
+		// Pega o usu·rio logado
+		HttpSession session= request.getSession();
+		Usuario usuario= (Usuario) session.getAttribute("usuario");
+		
 		switch (operacao) {
 		case "conctt":
-			List<Contato> contatos = contatoCtrl.consultar();
+			List<Contato> contatos = contatoCtrl.consultar(usuario);
 			request.setAttribute("contatos", contatos);
 			proxPagina = "contato/consulta.jsp";
 			break;
@@ -86,27 +95,71 @@ public class FrontControllerServlet extends HttpServlet {
 		String operacao = request.getParameter("op");
 		if (operacao == null) {
 			this.getServletContext().setAttribute("msgs",
-					new String[] { "Opera√ß√£o (op) n√£o especificada na requisi√ß√£o!" });
+					new String[] { "OperaÁ„oo (op) n„oo especificada na requisiÁ„o!" });
 			response.sendRedirect(request.getHeader("Referer"));
 			return;
 		}
 		OperadoraController operadoraCtrl = new OperadoraController();
 		ContatoController contatoCtrl = new ContatoController();
+		LoginController loginCtrl= new LoginController();
 		Resultado resultado = null;
 		String paginaSucesso = "controller.do?op=conctt";
 		String paginaSucessoOpe = "controller.do?op=conope";
 		String paginaErro = "contato/cadastro.jsp";
 		String paginaErroOpe = "operadora/cadastro.jsp";
 		String proxPagina = null;
+		
+		// Pega o usu·rio logado
+		HttpSession session= request.getSession();
+		Usuario usuario= (Usuario) session.getAttribute("usuario");
 		switch (operacao) {
+		// Login/logout
+		case "login":
+			paginaSucesso = "controller.do?op=conctt";
+			paginaErro = "controller.do?op=login";
+			resultado = loginCtrl.isValido(request.getParameterMap());
+			if(resultado.isErro()) {
+				request.setAttribute("msgs", resultado.getMensagens());
+				proxPagina= paginaErro;
+			} else {
+				session.setAttribute("usuario", (Usuario) resultado.getEntidade());
+				proxPagina = paginaSucesso;
+				
+				// trata o lembrarString 
+				String lembrar = request.getParameter("lembrar");
+				if(lembrar!= null) {				
+					Usuario usuariologado = new Usuario();
+					Cookie c= new Cookie("loginCookie", usuariologado.getEmail());
+					c.setMaxAge(-1);
+					response.addCookie(c);
+					} else{
+						for(Cookie cookie: request.getCookies()) {
+							if(cookie.getName().equals("loginCookie")){
+								cookie.setValue(null);
+								cookie.setMaxAge(0);
+								response.addCookie(cookie);			
+							
+						}
+						
+					}
+				}
+			}
+			
+			break;
+		case "logout":
+			resultado = new Resultado();
+			proxPagina = "login/login.jsp";
+			session.invalidate();
+			resultado.setErro(false);
+			break;	
 		case "cadctt":
 			resultado = contatoCtrl.cadastrar(request.getParameterMap());
 			if (!resultado.isErro()) {
 				proxPagina = paginaSucesso;
-				request.setAttribute("msgs", resultado.getMensagensSucesso());
+				request.setAttribute("msgs", resultado.getMensagens());
 			} else {
 				request.setAttribute("contato", (Contato) resultado.getEntidade());
-				request.setAttribute("msgs", resultado.getMensagensErro());
+				request.setAttribute("msgs", resultado.getMensagens());
 				proxPagina = paginaErro;
 			}
 
@@ -116,10 +169,10 @@ public class FrontControllerServlet extends HttpServlet {
 			resultado = contatoCtrl.remove(request.getParameterMap());
 			if(!resultado.isErro()) {
 				proxPagina= paginaSucesso;
-				request.setAttribute("msgs", resultado.getMensagensSucesso());
+				request.setAttribute("msgs", resultado.getMensagens());
 			} else{
 				request.setAttribute("contato", (Contato) resultado.getEntidade());
-				request.setAttribute("msgs", resultado.getMensagensErro());
+				request.setAttribute("msgs", resultado.getMensagens());
 				proxPagina= paginaErro;
 			}
 			
@@ -127,11 +180,11 @@ public class FrontControllerServlet extends HttpServlet {
 		case "deleteope":
 			resultado = operadoraCtrl.remove(request.getParameterMap());
 			if(!resultado.isErro()) {
-				proxPagina= paginaSucesso;
-				request.setAttribute("msgs", resultado.getMensagensSucesso());
+				proxPagina= paginaSucessoOpe;
+				request.setAttribute("msgs", resultado.getMensagens());
 			} else{
 				request.setAttribute("operadora", (Operadora) resultado.getEntidade());
-				request.setAttribute("msgs", resultado.getMensagensErro());
+				request.setAttribute("msgs", resultado.getMensagens());
 				proxPagina= paginaErro;
 			}
 			
@@ -141,10 +194,10 @@ public class FrontControllerServlet extends HttpServlet {
 			resultado = operadoraCtrl.cadastrar(request.getParameterMap());
 			if (!resultado.isErro()) {
 				proxPagina = paginaSucessoOpe;
-				request.setAttribute("msgs", resultado.getMensagensSucesso());
+				request.setAttribute("msgs", resultado.getMensagens());
 			} else {
 				request.setAttribute("operadora", (Operadora) resultado.getEntidade());
-				request.setAttribute("msgs", resultado.getMensagensErro());
+				request.setAttribute("msgs", resultado.getMensagens());
 				proxPagina = paginaErroOpe;
 			}
 			break;
